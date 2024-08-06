@@ -1,6 +1,6 @@
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("Received request: ", request);
-
-    if (request.greeting === "hello")
-        sendResponse({ farewell: "goodbye" });
+// Initialize the extension's enabled state
+browser.storage.local.get('enabled', function(data) {
+    if (data.enabled === undefined) {
+        browser.storage.local.set({enabled: true});
+    }
 });
