@@ -1,12 +1,13 @@
- (function() {
-     browser.storage.local.get('enabled', function(data) {
-         if (data.enabled !== false) {
-             const currentURL = window.location.href;
-             if (!currentURL.includes('old.reddit.com')) {
-                 const newURL = currentURL.replace('://www.reddit.com', '://old.reddit.com')
-                                          .replace('://reddit.com', '://old.reddit.com');
-                 window.location.replace(newURL);
-             }
-         }
-     });
- })();
+(function() {
+    browser.storage.local.get('enabled', function(data) {
+        if (data.enabled !== false) {
+            const currentURL = window.location.href;
+            const pattern = /^https?:\/\/www\.reddit\.com(?!\/(?:(?:media|gallery|settings)\b|r\/\w+\/s\/))([/#?].*)?$/;
+            
+            if (pattern.test(currentURL)) {
+                const newURL = currentURL.replace(pattern, 'https://old.reddit.com$1');
+                window.location.replace(newURL);
+            }
+        }
+    });
+})();
